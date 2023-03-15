@@ -17,8 +17,8 @@ class _DecoratedContainerDemoState extends DemoWidgetState {
   @override
   Widget buildContent() {
     return Container(
-        width: 5000,
-        height: 5000,
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
         color: Colors.black,
         child: Center(
           child: DecoratedContainer(
