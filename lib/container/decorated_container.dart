@@ -75,7 +75,7 @@ class DecoratedContainer extends StatelessWidget {
             ? constraints?.tighten(width: width, height: height) ??
                 BoxConstraints.tightFor(width: width, height: height)
             : constraints;
-  double radius;
+  final double radius;
   final Widget? child;
   final AlignmentGeometry? alignment;
   final EdgeInsetsGeometry? padding;
