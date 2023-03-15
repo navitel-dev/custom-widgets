@@ -263,7 +263,7 @@ class MaxChildColumnRender extends RenderBox
   @override
   void performLayout() {
     final BoxConstraints constraints = this.constraints;
-
+    double maxWidth = -1;
     {
       RenderBox? child = firstChild;
       while (child != null) {
@@ -271,22 +271,13 @@ class MaxChildColumnRender extends RenderBox
             child.parentData! as FlexParentData;
         ChildLayoutHelper.layoutChild(
             child, BoxConstraints(maxWidth: constraints.maxWidth));
+        double curWidth = child.size.width;
+        if (maxWidth > curWidth || maxWidth == -1) {
+          maxWidth = curWidth;
+        }
         assert(child.parentData == childParentData);
         child = childParentData.nextSibling;
       }
-    }
-
-    double maxWidth = -1;
-    RenderBox? child = firstChild;
-    while (child != null) {
-      final FlexParentData childParentData =
-          child.parentData! as FlexParentData;
-      double curWidth = child.size.width;
-      if (maxWidth > curWidth || maxWidth == -1) {
-        maxWidth = curWidth;
-      }
-      assert(child.parentData == childParentData);
-      child = childParentData.nextSibling;
     }
 
     final _LayoutSizes mainSizes = _customComputeSizes(
@@ -337,7 +328,7 @@ class MaxChildColumnRender extends RenderBox
     }
 
     double childMainPosition = leadingSpace;
-    child = firstChild;
+    RenderBox? child = firstChild;
     while (child != null) {
       final FlexParentData childParentData =
           child.parentData! as FlexParentData;

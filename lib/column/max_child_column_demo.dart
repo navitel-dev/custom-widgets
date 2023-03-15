@@ -32,10 +32,21 @@ class _MyColumnDemoState extends DemoWidgetState {
   Widget _buildTextExamples() {
     return MaxChildColumn(
       children: <Widget>[
-        Container(
-          color: Colors.red,
-          height: 50,
-        ),
+        SizedBox(
+            height: 300,
+            child: ListView.builder(
+              itemBuilder: (context, position) {
+                return Card(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Text(
+                      position.toString(),
+                      style: const TextStyle(fontSize: 22.0),
+                    ),
+                  ),
+                );
+              },
+            )),
         Container(
           color: Colors.green,
           height: 100,
