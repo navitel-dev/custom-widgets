@@ -25,7 +25,7 @@ class _DecoratedContainerDemoState extends DemoWidgetState {
             width: 100,
             height: 100,
             color: Colors.yellow,
-            radius: 80,
+            radius: 16,
           ),
         ));
   }

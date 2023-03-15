@@ -35,45 +35,36 @@ class DecoratedBox extends SingleChildRenderObjectWidget {
 class DecoratedContainer extends StatelessWidget {
   DecoratedContainer({
     super.key,
-    this.alignment,
     this.color,
     required this.radius,
-    double? width,
-    double? height,
+    this.width,
+    this.height,
     BoxConstraints? constraints,
     this.transform,
     this.transformAlignment,
     this.child,
-    this.clipBehavior = Clip.none,
     this.decoration,
-  })  : assert(constraints == null || constraints.debugAssertIsValid()),
-        assert(clipBehavior == Clip.none),
-        constraints = (width != null || height != null)
-            ? constraints?.tighten(width: width, height: height) ??
-                BoxConstraints.tightFor(width: width, height: height)
-            : constraints;
+  }) : assert(constraints == null || constraints.debugAssertIsValid());
+  final double? width;
+  final double? height;
   final double radius;
   final Widget? child;
-  final AlignmentGeometry? alignment;
   final Color? color;
   final Decoration? decoration;
-  final BoxConstraints? constraints;
   final Matrix4? transform;
   final AlignmentGeometry? transformAlignment;
-  final Clip clipBehavior;
 
   @override
   Widget build(BuildContext context) {
     Widget? current = child;
 
-    if (child == null && (constraints == null || !constraints!.isTight)) {
+    if (child == null) {
       current = LimitedBox(
         maxWidth: 0.0,
         maxHeight: 0.0,
-        child: ConstrainedBox(constraints: const BoxConstraints.expand()),
+        child: ConstrainedBox(
+            constraints: BoxConstraints.expand(width: width, height: height)),
       );
-    } else if (alignment != null) {
-      current = Align(alignment: alignment!, child: current);
     }
 
     final decoration = BoxDecoration(
@@ -85,31 +76,14 @@ class DecoratedContainer extends StatelessWidget {
       boxShadow: [
         BoxShadow(
           color: Colors.grey.withOpacity(0.3),
-          spreadRadius: 3,
+          spreadRadius: 10,
           blurRadius: 10,
-          offset: const Offset(0, 0), // changes position of shadow
+          offset: const Offset(0, 0),
         ),
       ],
       color: color,
     );
     current = DecoratedBox(decoration: decoration, child: current);
-
-    if (clipBehavior != Clip.none) {
-      current = ClipPath(
-        clipper: _DecorationClipper(
-          textDirection: Directionality.maybeOf(context),
-          decoration: decoration,
-        ),
-        clipBehavior: clipBehavior,
-        child: current,
-      );
-    }
-
-    current = DecoratedBox(decoration: decoration, child: current);
-
-    if (constraints != null) {
-      current = ConstrainedBox(constraints: constraints!, child: current);
-    }
 
     if (transform != null) {
       current = Transform(
@@ -117,26 +91,5 @@ class DecoratedContainer extends StatelessWidget {
     }
 
     return current;
-  }
-}
-
-class _DecorationClipper extends CustomClipper<Path> {
-  _DecorationClipper({
-    TextDirection? textDirection,
-    required this.decoration,
-  }) : textDirection = textDirection ?? TextDirection.ltr;
-
-  final TextDirection textDirection;
-  final Decoration decoration;
-
-  @override
-  Path getClip(Size size) {
-    return decoration.getClipPath(Offset.zero & size, textDirection);
-  }
-
-  @override
-  bool shouldReclip(_DecorationClipper oldClipper) {
-    return oldClipper.decoration != decoration ||
-        oldClipper.textDirection != textDirection;
   }
 }
