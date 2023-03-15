@@ -133,25 +133,6 @@ class MaxChildColumnRender extends RenderBox
     );
   }
 
-  _LayoutSizes _InitSizes(
-      {required BoxConstraints constraints,
-      required ChildLayouter layoutChild}) {
-    RenderBox? child = firstChild;
-
-    while (child != null) {
-      final FlexParentData childParentData =
-          child.parentData! as FlexParentData;
-      layoutChild(child, BoxConstraints(maxWidth: constraints.maxWidth));
-      assert(child.parentData == childParentData);
-      child = childParentData.nextSibling;
-    }
-    return const _LayoutSizes(
-      mainSize: 0,
-      crossSize: 0,
-      allocatedSize: 0,
-    );
-  }
-
   //Максимальная высота бокса
   @override
   double computeMaxIntrinsicHeight(double width) {
@@ -283,16 +264,19 @@ class MaxChildColumnRender extends RenderBox
   void performLayout() {
     final BoxConstraints constraints = this.constraints;
 
-    final _LayoutSizes sizes = _InitSizes(
-      layoutChild: ChildLayoutHelper.layoutChild,
-      constraints: constraints,
-    );
+    {
+      RenderBox? child = firstChild;
+      while (child != null) {
+        final FlexParentData childParentData =
+            child.parentData! as FlexParentData;
+        ChildLayoutHelper.layoutChild(
+            child, BoxConstraints(maxWidth: constraints.maxWidth));
+        assert(child.parentData == childParentData);
+        child = childParentData.nextSibling;
+      }
+    }
 
-    double allocatedSize = sizes.allocatedSize;
-    double actualSize = sizes.mainSize;
-    double crossSize = sizes.crossSize;
     double maxWidth = -1;
-
     RenderBox? child = firstChild;
     while (child != null) {
       final FlexParentData childParentData =
@@ -304,16 +288,15 @@ class MaxChildColumnRender extends RenderBox
       assert(child.parentData == childParentData);
       child = childParentData.nextSibling;
     }
-    crossSize = maxWidth;
 
     final _LayoutSizes mainSizes = _customComputeSizes(
         layoutChild: ChildLayoutHelper.layoutChild,
         constraints: constraints,
         maxWidth: maxWidth);
 
-    allocatedSize = mainSizes.allocatedSize;
-    actualSize = mainSizes.mainSize;
-    crossSize = mainSizes.crossSize;
+    double allocatedSize = mainSizes.allocatedSize;
+    double actualSize = mainSizes.mainSize;
+    double crossSize = mainSizes.crossSize;
 
     // Align items along the main axis.
     size = constraints.constrain(Size(crossSize, actualSize));
@@ -361,9 +344,7 @@ class MaxChildColumnRender extends RenderBox
       final double childCrossPosition =
           crossSize / 2.0 - child.size.width / 2.0;
       childParentData.offset = Offset(childCrossPosition, childMainPosition);
-
       childMainPosition += child.size.height + betweenSpace;
-
       child = childParentData.nextSibling;
     }
   }
