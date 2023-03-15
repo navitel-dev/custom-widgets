@@ -1,3 +1,4 @@
+import 'package:custom_widgets/container/decorated_container_demo.dart';
 import 'package:custom_widgets/demo_widget.dart';
 import 'package:custom_widgets/ellipsized_text/ellipsized_text_demo.dart';
 import 'package:custom_widgets/child_size/child_size_demo.dart';
@@ -36,6 +37,7 @@ class HomePage extends StatelessWidget {
             _buildItem(context, const EllipsizedTextDemo()),
             _buildItem(context, const ChildSizeDemo()),
             _buildItem(context, const MaxChildColumnDemo()),
+            _buildItem(context, const DecoratedContainerDemo())
           ],
         ),
       ),
