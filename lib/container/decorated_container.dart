@@ -57,6 +57,7 @@ class DecoratedContainer extends StatelessWidget {
     this.padding,
     this.color,
     this.foregroundDecoration,
+    required this.radius,
     double? width,
     double? height,
     BoxConstraints? constraints,
@@ -74,7 +75,7 @@ class DecoratedContainer extends StatelessWidget {
             ? constraints?.tighten(width: width, height: height) ??
                 BoxConstraints.tightFor(width: width, height: height)
             : constraints;
-
+  double radius;
   final Widget? child;
   final AlignmentGeometry? alignment;
   final EdgeInsetsGeometry? padding;
@@ -118,11 +119,11 @@ class DecoratedContainer extends StatelessWidget {
     }
 
     final decoration = BoxDecoration(
-      borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(16),
-          topRight: Radius.circular(16),
-          bottomLeft: Radius.circular(16),
-          bottomRight: Radius.circular(16)),
+      borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(radius),
+          topRight: Radius.circular(radius),
+          bottomLeft: Radius.circular(radius),
+          bottomRight: Radius.circular(radius)),
       boxShadow: [
         BoxShadow(
           color: Colors.grey.withOpacity(0.3),
