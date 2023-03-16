@@ -37,6 +37,9 @@ class DecoratedContainer extends StatelessWidget {
     super.key,
     this.color,
     required this.radius,
+    required this.blurRadius,
+    required this.colorShadow,
+    required this.spreadRadius,
     this.width,
     this.height,
     BoxConstraints? constraints,
@@ -45,6 +48,9 @@ class DecoratedContainer extends StatelessWidget {
     this.child,
     this.decoration,
   }) : assert(constraints == null || constraints.debugAssertIsValid());
+  final Color colorShadow;
+  final double spreadRadius;
+  final double blurRadius;
   final double? width;
   final double? height;
   final double radius;
@@ -75,9 +81,9 @@ class DecoratedContainer extends StatelessWidget {
           bottomRight: Radius.circular(radius)),
       boxShadow: [
         BoxShadow(
-          color: Colors.grey.withOpacity(0.3),
-          spreadRadius: 10,
-          blurRadius: 10,
+          color: colorShadow,
+          spreadRadius: spreadRadius,
+          blurRadius: blurRadius,
           offset: const Offset(0, 0),
         ),
       ],

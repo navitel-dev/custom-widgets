@@ -22,10 +22,13 @@ class _DecoratedContainerDemoState extends DemoWidgetState {
         color: Colors.black,
         child: Center(
           child: DecoratedContainer(
+            colorShadow: Colors.grey.withOpacity(0.3),
+            spreadRadius: 10,
+            blurRadius: 10,
             width: 100,
             height: 100,
-            color: Colors.yellow,
-            radius: 16,
+            color: Colors.red,
+            radius: 80,
           ),
         ));
   }
