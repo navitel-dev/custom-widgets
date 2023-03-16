@@ -14,22 +14,46 @@ class DecoratedContainerDemo extends DemoWidget {
 }
 
 class _DecoratedContainerDemoState extends DemoWidgetState {
+  var _fractionWidth = 100.0;
+  var _fractionHeight = 100.0;
+  var _fractionRadius = 100.0;
+
   @override
   Widget buildContent() {
-    return Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        color: Colors.black,
-        child: Center(
-          child: DecoratedContainer(
-            colorShadow: Colors.grey.withOpacity(0.3),
-            spreadRadius: 10,
-            blurRadius: 10,
-            width: 100,
-            height: 100,
-            color: Colors.red,
-            radius: 80,
-          ),
-        ));
+    return Column(children: [
+      const Text("width"),
+      Slider(
+          min: 10,
+          max: 300,
+          value: _fractionWidth,
+          onChanged: (value) => setState(() => _fractionWidth = value)),
+      const Text("height"),
+      Slider(
+          min: 10,
+          max: 300,
+          value: _fractionHeight,
+          onChanged: (value) => setState(() => _fractionHeight = value)),
+      const Text('radius'),
+      Slider(
+          min: 0,
+          max: 100,
+          value: _fractionRadius,
+          onChanged: (value) => setState(() => _fractionRadius = value)),
+      Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height - 350,
+          color: Colors.black,
+          child: Center(
+            child: DecoratedContainer(
+              colorShadow: Colors.grey.withOpacity(0.3),
+              spreadRadius: 10,
+              blurRadius: 10,
+              width: _fractionWidth,
+              height: _fractionHeight,
+              color: Colors.red,
+              radius: _fractionRadius,
+            ),
+          ))
+    ]);
   }
 }
