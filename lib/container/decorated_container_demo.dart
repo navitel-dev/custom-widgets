@@ -1,3 +1,4 @@
+import 'package:custom_widgets/container/circle_style.dart';
 import 'package:custom_widgets/container/decorated_container.dart';
 import 'package:flutter/material.dart';
 
@@ -20,6 +21,8 @@ class _DecoratedContainerDemoState extends DemoWidgetState {
 
   @override
   Widget buildContent() {
+    StyleCircle style = StyleCircle();
+
     return Column(children: [
       const Text("width"),
       Slider(
@@ -52,22 +55,15 @@ class _DecoratedContainerDemoState extends DemoWidgetState {
               height: _fractionHeight,
               color: Colors.red,
               radius: _fractionRadius,
-              child: IconButton(
-                onPressed: () {
-                  //Navigator.pop(context);
-                },
-                icon: const Icon(
+              child: ElevatedButton(
+                style: style.giveStyle(_fractionRadius),
+                onPressed: () {},
+                child: const Icon(
                   Icons.favorite,
                   color: Colors.white,
-                  semanticLabel: 'Text to announce in accessibility modes',
                 ),
-                //child: Container(
-                //width: _fractionWidth,
-                //sheight: _fractionHeight,
-                //  color: Colors.white,
               ),
             ),
-            //),
           ))
     ]);
   }

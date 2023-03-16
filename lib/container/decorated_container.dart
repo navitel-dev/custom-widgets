@@ -42,38 +42,29 @@ class DecoratedContainer extends StatelessWidget {
     required this.spreadRadius,
     required this.width,
     required this.height,
-    BoxConstraints? constraints,
     this.transform,
     this.transformAlignment,
     this.child,
     this.decoration,
+    this.constraints,
   }) : assert(constraints == null || constraints.debugAssertIsValid());
+  final double width;
+  final double height;
   final Color colorShadow;
   final double spreadRadius;
   final double blurRadius;
-  final double width;
-  final double height;
   final double radius;
   final Widget? child;
   final Color? color;
   final Decoration? decoration;
+  final BoxConstraints? constraints;
   final Matrix4? transform;
   final AlignmentGeometry? transformAlignment;
 
   @override
   Widget build(BuildContext context) {
     Widget? current = child;
-
-    if (child == null) {
-      current = LimitedBox(
-        maxWidth: 0.0,
-        maxHeight: 0.0,
-        child: ConstrainedBox(
-            constraints: BoxConstraints.expand(width: width, height: height)),
-      );
-    }
-
-    final decoration = BoxDecoration(
+    final defDecoration = BoxDecoration(
       borderRadius: BorderRadius.only(
           topLeft: Radius.circular(radius),
           topRight: Radius.circular(radius),
@@ -89,20 +80,26 @@ class DecoratedContainer extends StatelessWidget {
       ],
       color: color,
     );
-
-    current = Container(
+    if (child == null && (constraints == null || !constraints!.isTight)) {
+      current = LimitedBox(
+        maxWidth: 0.0,
+        maxHeight: 0.0,
+        child: ConstrainedBox(constraints: const BoxConstraints.expand()),
+      );
+    } else {
+      current = Container(
         width: width,
         height: height,
-        decoration: decoration,
-        child: Center(
-          child: child,
-        ));
+        decoration: defDecoration,
+        child: current,
+      );
+    }
 
-    current = DecoratedBox(
-      decoration: decoration,
-      position: DecorationPosition.background,
-      child: current,
-    );
+    current = DecoratedBox(decoration: defDecoration, child: current);
+
+    if (constraints != null) {
+      current = ConstrainedBox(constraints: constraints!, child: current);
+    }
 
     if (transform != null) {
       current = Transform(
@@ -110,5 +107,19 @@ class DecoratedContainer extends StatelessWidget {
     }
 
     return current;
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    if (color != null) {
+      properties.add(DiagnosticsProperty<Color>('bg', color));
+    } else {
+      properties.add(DiagnosticsProperty<Decoration>('bg', decoration,
+          defaultValue: null));
+    }
+    properties.add(DiagnosticsProperty<BoxConstraints>(
+        'constraints', constraints,
+        defaultValue: null));
   }
 }
