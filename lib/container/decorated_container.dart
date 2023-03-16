@@ -40,8 +40,8 @@ class DecoratedContainer extends StatelessWidget {
     required this.blurRadius,
     required this.colorShadow,
     required this.spreadRadius,
-    this.width,
-    this.height,
+    required this.width,
+    required this.height,
     BoxConstraints? constraints,
     this.transform,
     this.transformAlignment,
@@ -51,8 +51,8 @@ class DecoratedContainer extends StatelessWidget {
   final Color colorShadow;
   final double spreadRadius;
   final double blurRadius;
-  final double? width;
-  final double? height;
+  final double width;
+  final double height;
   final double radius;
   final Widget? child;
   final Color? color;
@@ -89,7 +89,20 @@ class DecoratedContainer extends StatelessWidget {
       ],
       color: color,
     );
-    current = DecoratedBox(decoration: decoration, child: current);
+
+    current = Container(
+        width: width,
+        height: height,
+        decoration: decoration,
+        child: Center(
+          child: child,
+        ));
+
+    current = DecoratedBox(
+      decoration: decoration,
+      position: DecorationPosition.background,
+      child: current,
+    );
 
     if (transform != null) {
       current = Transform(

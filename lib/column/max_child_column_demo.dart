@@ -40,7 +40,7 @@ class _MyColumnDemoState extends DemoWidgetState {
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Text(
-                      position.toString(),
+                      '$position.toString()ffpdkfsfsfsdffsdfs',
                       style: const TextStyle(fontSize: 22.0),
                     ),
                   ),

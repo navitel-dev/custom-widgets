@@ -52,7 +52,22 @@ class _DecoratedContainerDemoState extends DemoWidgetState {
               height: _fractionHeight,
               color: Colors.red,
               radius: _fractionRadius,
+              child: IconButton(
+                onPressed: () {
+                  //Navigator.pop(context);
+                },
+                icon: const Icon(
+                  Icons.favorite,
+                  color: Colors.white,
+                  semanticLabel: 'Text to announce in accessibility modes',
+                ),
+                //child: Container(
+                //width: _fractionWidth,
+                //sheight: _fractionHeight,
+                //  color: Colors.white,
+              ),
             ),
+            //),
           ))
     ]);
   }
