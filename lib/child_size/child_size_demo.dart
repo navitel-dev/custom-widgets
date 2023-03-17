@@ -48,7 +48,7 @@ class _ChildSizeDemoState extends DemoWidgetState {
       return ColoredBox(
         color: Colors.amber,
         child: Icon(
-          Icons.image,
+          Icons.abc,
           color: Colors.yellow,
           size: min(constraints.maxWidth, constraints.maxHeight) * _fraction,
         ),

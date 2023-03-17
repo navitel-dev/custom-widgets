@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:custom_widgets/container/circle_style.dart';
 import 'package:custom_widgets/container/decorated_container.dart';
 import 'package:flutter/material.dart';
@@ -58,13 +60,23 @@ class _DecoratedContainerDemoState extends DemoWidgetState {
               child: ElevatedButton(
                 style: style.giveStyle(_fractionRadius),
                 onPressed: () {},
-                child: const Icon(
+                child: Center(
+                    child: Icon(
                   Icons.favorite,
                   color: Colors.white,
-                ),
+                  size: getRealWidth(),
+                )),
               ),
             ),
           ))
     ]);
+  }
+
+  double getRealWidth() {
+    if (_fractionWidth < 50) {
+      return 0.0;
+    } else {
+      return min(_fractionHeight, _fractionWidth - 50);
+    }
   }
 }
