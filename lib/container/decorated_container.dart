@@ -96,7 +96,9 @@ class DecoratedContainer extends StatelessWidget {
     }
 
     current = DecoratedBox(decoration: defDecoration, child: current);
-
+    BoxConstraints curConstraints =
+        BoxConstraints(maxWidth: width, maxHeight: height);
+    current = ConstrainedBox(constraints: curConstraints, child: current);
     if (constraints != null) {
       current = ConstrainedBox(constraints: constraints!, child: current);
     }

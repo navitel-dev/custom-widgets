@@ -60,12 +60,11 @@ class _DecoratedContainerDemoState extends DemoWidgetState {
               child: ElevatedButton(
                 style: style.giveStyle(_fractionRadius),
                 onPressed: () {},
-                child: Center(
-                    child: Icon(
+                child: Icon(
                   Icons.favorite,
-                  color: Colors.white,
+                  color: Colors.yellow,
                   size: getRealWidth(),
-                )),
+                ),
               ),
             ),
           ))
